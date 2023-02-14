@@ -21,7 +21,7 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/element-ui'],
+  plugins: ['@/plugins/element-ui', '@/plugins/axios'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -35,7 +35,12 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/style-resources'],
+  modules: [
+    '@nuxtjs/style-resources',
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
+    'cookie-universal-nuxt',
+  ],
 
   styleResources: {
     scss: ['./assets/css/index.scss'],
@@ -44,5 +49,16 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/],
+  },
+  axios: {
+    proxy: true,
+  },
+  proxy: {
+    '/api': {
+      target: 'http://10.56.13.223:9099/',
+      pathRewrite: {
+        '^/api': '/project-test',
+      },
+    },
   },
 }
